@@ -19,7 +19,7 @@ const AUTH_CONFIG = {
     refreshToken: '',
 }
 
-const authChecker = <T extends any[], D>(
+const authChecker = <T extends unknown[], D>(
     request: (...args: T) => Promise<D>
 ) => {
     return async (...args: T): Promise<D> => {
@@ -102,7 +102,7 @@ const getAccount = async () => {
         })
 }
 
-const getCodeSubdomain = async (code: string, subDomain: string) => {
+const getCodeSubdomain = (code: string, subDomain: string) => {
     AUTH_CONFIG.code = code
     AUTH_CONFIG.subDomain = subDomain
 }
@@ -130,7 +130,7 @@ const refreshToken = async () => {
             console.error(err.response.data)
         })
 }
-const getAccountData = authChecker(() => {
+const getAccountData = authChecker(async () => {
     return axios
         .get(`${AUTH_CONFIG.rootPath}/api/v4/contacts`, {
             headers: {
